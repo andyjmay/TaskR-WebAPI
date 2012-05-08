@@ -1,0 +1,107 @@
+@import url(http://fonts.googleapis.com/css?family=Inconsolata);
+
+body {
+  margin: 0;
+  padding: 0;
+}
+ul.unstyled {
+  margin-left: 0;
+  list-style: none;
+  padding: 0;
+}
+h3 {
+  padding: 0;
+  margin: 0;
+}
+.header-accent {
+  background: #0E65DA;
+  height: 5px;
+}
+.header {
+  background: #000;
+  height: 40px;
+}
+.header-title {
+  color: #0E65DA;
+  font-family: 'Inconsolata', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  margin: 0;
+  padding: 5px;
+}
+.task-actions {
+  padding: 10px 10px 0 0;
+  text-align: right;
+}
+.task {
+  border-color: #000;
+  border-style: solid;
+  border-width: 2px;
+  margin: 20px 10px;
+  padding: 10px;
+}
+.task-date {
+  font-size: 10pt;
+}
+.task-status {
+  color: #0E65DA;
+  font-size: 10pt;
+}
+.task-assigned {
+  
+}
+.task-details {
+  
+}
+.editButton {
+  float: right;
+}
+#addTaskButton {
+  margin-left: 10px;
+}
+.btn-danger {
+  float: left;
+}
+
+/* Space out sub-sections more
+-------------------------------------------------- */
+section {
+  padding-top: 60px;
+}
+
+/* Faded out hr */
+hr.soften {
+  height: 1px;
+  margin: 54px 0;
+  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.1), rgba(0,0,0,0));
+  border: 0;
+}
+
+/* Footer
+-------------------------------------------------- */
+.footer {
+  margin-top: 45px;
+  padding: 35px 0 36px;
+  border-top: 1px solid #e5e5e5;
+}
+.footer p {
+  margin-bottom: 0;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+  /* Unfloat the back to top link in footer */
+  .footer .pull-right {
+    float: none;
+  }
+  .footer p {
+    margin-bottom: 9px;
+  }
+}

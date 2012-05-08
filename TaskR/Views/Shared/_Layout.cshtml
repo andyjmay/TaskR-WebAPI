@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewBag.Title</title>
+  <link href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/CssBundle")" rel="stylesheet" type="text/css" />
+  <script src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/ScriptBundle")"></script>
+</head>
+<body>
+  @RenderBody()
+  <script src="@Url.Content("~/Scripts/knockout-2.1.0.debug.js")"></script>
+  <script src="@Url.Content("~/Scripts/App/taskr.js")"></script>
+</body>
+</html>
