@@ -122,8 +122,10 @@
         success: function (data, textStatus, jqXHR) {
           var createdTask = data;
           createdTask.DateCreated = createdTask.DateCreated.fromJsonDate();
-          tasksViewModel.tasks.push(createdTask);
-          tasks.sortTasks();
+          if (createdTask.AssignedTo.toLowerCase() === viewModel.username().toLowerCase()) {
+            tasksViewModel.tasks.push(createdTask);
+            tasks.sortTasks();
+          }
         }
       });
     },
@@ -138,7 +140,7 @@
           tasksViewModel.tasks.remove(function (taskToRemove) {
             return taskToRemove.TaskID === updatedTask.TaskID;
           });
-          if (updatedTask.AssignedTo !== viewModel.username()) {
+          if (updatedTask.AssignedTo.toLowerCase() !== viewModel.username().toLowerCase()) {
             return;
           }
           tasksViewModel.tasks.push(updatedTask);
