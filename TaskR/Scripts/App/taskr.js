@@ -120,37 +120,42 @@
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(newTask),
         success: function (data, textStatus, jqXHR) {
-          var createdTask = data;
-          createdTask.DateCreated = createdTask.DateCreated.fromJsonDate();
-          if (createdTask.AssignedTo.toLowerCase() === viewModel.username().toLowerCase()) {
-            tasksViewModel.tasks.push(createdTask);
-            tasks.sortTasks();
-          }
+          tasks.addedTask(data);
         }
       });
     },
-    updateTask: function (updatedTask) {
+    addedTask: function (addedTask) {
+      addedTask.DateCreated = addedTask.DateCreated.fromJsonDate();
+      if (addedTask.AssignedTo.toLowerCase() === viewModel.username().toLowerCase()) {
+        tasksViewModel.tasks.push(addedTask);
+        tasks.sortTasks();
+      }
+    },
+    updateTask: function (taskToUpdate) {
       $.ajax({
-        url: '/api/tasks/' + updatedTask.TaskID,
+        url: '/api/tasks/' + taskToUpdate.TaskID,
         cache: false,
         type: 'PUT',
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(updatedTask),
+        data: JSON.stringify(taskToUpdate),
         success: function (data, textStatus, jqXHR) {
-          tasksViewModel.tasks.remove(function (taskToRemove) {
-            return taskToRemove.TaskID === updatedTask.TaskID;
-          });
-          if (updatedTask.AssignedTo.toLowerCase() !== viewModel.username().toLowerCase()) {
-            return;
-          }
-          tasksViewModel.tasks.push(updatedTask);
-          tasks.sortTasks();
-          taskViewModel.ClearTask();
+          tasks.updatedTask(taskToUpdate);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(textStatus + " :: " + errorThrown);
         }
       });
+    },
+    updatedTask: function (updatedTask) {
+      tasksViewModel.tasks.remove(function (taskToRemove) {
+        return taskToRemove.TaskID === updatedTask.TaskID;
+      });
+      if (updatedTask.AssignedTo.toLowerCase() !== viewModel.username().toLowerCase()) {
+        return;
+      }
+      tasksViewModel.tasks.push(updatedTask);
+      tasks.sortTasks();
+      taskViewModel.ClearTask();
     },
     deleteTask: function (taskToDelete) {
       $.ajax({
@@ -159,15 +164,18 @@
         type: 'DELETE',
         contentType: 'application/json; charset=utf-8',
         success: function (data, textStatus, jqXHR) {
-          tasksViewModel.tasks.remove(function (taskToRemove) {
-            return taskToRemove.TaskID === taskToDelete.TaskID;
-          });
-          taskViewModel.ClearTask();
+          tasks.deletedTask(taskToDelete);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alert(textStatus + " :: " + errorThrown);
         }
       });
+    },
+    deletedTask: function (deletedTask) {
+      tasksViewModel.tasks.remove(function (taskToRemove) {
+        return taskToRemove.TaskID === deletedTask.TaskID;
+      });
+      taskViewModel.ClearTask();
     },
     sortTasks: function () {
       tasksViewModel.tasks.sort(function (left, right) {
