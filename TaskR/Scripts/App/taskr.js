@@ -42,8 +42,9 @@
       $.getJSON("api/tasks?$filter=AssignedTo eq '" + this.username() + "'", function (results) {
         $.each(results, function () {
           var task = this;
-          task.DateCreated = task.DateCreated.fromJsonDate();
-          tasksViewModel.tasks.push(task);
+          tasks.addedTask(task);
+          //task.DateCreated = task.DateCreated.fromJsonDate();
+          //tasksViewModel.tasks.push(task);
         });
       });
     }
@@ -123,7 +124,8 @@
       });
     },
     addedTask: function (addedTask) {
-      addedTask.DateCreated = addedTask.DateCreated.fromJsonDate();
+      var dateCreated = addedTask.DateCreated.fromJsonDate();
+      addedTask.DateCreated = dateCreated.formatDate() + " " + dateCreated.formatTime(true);
       if (addedTask.AssignedTo.toLowerCase() === viewModel.username().toLowerCase()) {
         tasksViewModel.tasks.push(addedTask);
         tasks.sortTasks();
