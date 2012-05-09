@@ -76,8 +76,7 @@
         Title: this.Title(),
         AssignedTo: this.AssignedTo(),
         Status: this.Status(),
-        Details: this.Details(),
-        DateCreated: this.DateCreated()
+        Details: this.Details()
       });
     },
     UpdateTask: function () {
@@ -86,8 +85,7 @@
         Title: this.Title(),
         AssignedTo: this.AssignedTo(),
         Status: this.Status(),
-        Details: this.Details(),
-        DateCreated: this.DateCreated()
+        Details: this.Details()
       });
     },
     DeleteTask: function () {
@@ -147,12 +145,16 @@
       });
     },
     updatedTask: function (updatedTask) {
-      tasksViewModel.tasks.remove(function (taskToRemove) {
-        return taskToRemove.TaskID === updatedTask.TaskID;
-      });
       if (updatedTask.AssignedTo.toLowerCase() !== viewModel.username().toLowerCase()) {
+        tasks.deletedTask(updatedTask);
         return;
       }
+      
+      var existingTask = ko.utils.arrayFirst(tasksViewModel.tasks(), function (task) {
+        return task.TaskID === updatedTask.TaskID;
+      });
+      updatedTask.DateCreated = existingTask.DateCreated;
+      tasks.deletedTask(updatedTask);
       tasksViewModel.tasks.push(updatedTask);
       tasks.sortTasks();
       taskViewModel.ClearTask();
