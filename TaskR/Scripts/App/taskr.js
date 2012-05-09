@@ -1,6 +1,6 @@
 ﻿/// <reference path="../_references.js" />
 
-(function ($, connection, window) {
+(function ($, window) {
   "use strict";
 
   $('#newTaskModal').modal({
@@ -43,8 +43,6 @@
         $.each(results, function () {
           var task = this;
           tasks.addedTask(task);
-          //task.DateCreated = task.DateCreated.fromJsonDate();
-          //tasksViewModel.tasks.push(task);
         });
       });
     }
@@ -60,7 +58,6 @@
       taskViewModel.Details(this.Details);
       taskViewModel.DateCreated(this.DateCreated);
 
-      //TODO: Fix this UI call
       $('#editTaskModal').modal('show');
     }
   };
@@ -236,4 +233,4 @@
     var seconds = padZero(this.getSeconds());
     return hr + ":" + mins + ":" + seconds + (showAp ? " " + ap : "");
   };
-})(jQuery, $.connection, window);
+})(jQuery, window);
