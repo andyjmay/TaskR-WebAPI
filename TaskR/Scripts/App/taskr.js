@@ -7,7 +7,7 @@
   // Instance of SignalR Hub
   var taskHub = $.connection.taskHub;
 
-  taskHub.addedTask = function(task) {
+  taskHub.AddedTask = function(task) {
     tasks.addedTask(task);
   };
 

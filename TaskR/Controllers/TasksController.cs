@@ -33,6 +33,11 @@ namespace TaskR.Controllers {
         task.DateCreated = DateTime.Now;
         taskEntities.Tasks.Add(task);
         taskEntities.SaveChanges();
+
+        // Notify via SignalR
+        var context = SignalR.GlobalHost.ConnectionManager.GetHubContext<TaskR.Hubs.TaskHub>();
+        context.Clients[task.AssignedTo].AddedTask(task);
+
         var response = new HttpResponseMessage<Task>(task, HttpStatusCode.Created);
 
         string uri = Url.Route(null, new { id = task.TaskID });
@@ -53,7 +58,7 @@ namespace TaskR.Controllers {
         taskToUpdate.Details = task.Details;
         task.Status = task.Status;
         task.Title = task.Title;
-        taskEntities.SaveChanges();
+        taskEntities.SaveChanges();       
 
         return new HttpResponseMessage(HttpStatusCode.NoContent);
       }
