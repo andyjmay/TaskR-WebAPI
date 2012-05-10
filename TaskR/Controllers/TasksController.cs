@@ -51,8 +51,8 @@ namespace TaskR.Controllers {
         }
         taskToUpdate.AssignedTo = task.AssignedTo;
         taskToUpdate.Details = task.Details;
-        task.Status = task.Status;
-        task.Title = task.Title;
+        taskToUpdate.Status = task.Status;
+        taskToUpdate.Title = task.Title;
         taskEntities.SaveChanges();
 
         return new HttpResponseMessage(HttpStatusCode.NoContent);
