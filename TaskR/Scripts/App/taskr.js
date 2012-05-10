@@ -1,7 +1,15 @@
 ﻿/// <reference path="../_references.js" />
+/// <reference path="../jquery.signalR-0.5.0.js" />
 
 (function ($, window) {
   "use strict";
+  
+  // Instance of SignalR Hub
+  var taskHub = $.connection.taskHub;
+
+  taskHub.addedTask = function(task) {
+    tasks.addedTask(task);
+  };
 
   $('#newTaskModal').modal({
     backdrop: true,
@@ -39,6 +47,7 @@
     username: ko.observable(),
     showClosed: ko.observable(false),
     Login: function () {
+      taskHub.authenticate(this.username());
       $.getJSON("api/tasks?$filter=AssignedTo eq '" + this.username() + "'", function (results) {
         $.each(results, function () {
           var task = this;
@@ -201,6 +210,9 @@
   ko.applyBindings(tasksViewModel, document.getElementById('tasks'));
   ko.applyBindings(taskViewModel, document.getElementById('newTaskModal'));
   ko.applyBindings(taskViewModel, document.getElementById('editTaskModal'));
+
+  // Start connection to SignalR Hub
+  $.connection.hub.start();
 
   // Util functions
   function padZero(s) {
