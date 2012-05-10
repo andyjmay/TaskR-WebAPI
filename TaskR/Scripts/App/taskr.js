@@ -78,6 +78,7 @@
         Status: this.Status(),
         Details: this.Details()
       });
+      taskViewModel.ClearTask();
     },
     UpdateTask: function () {
       tasks.updateTask({
@@ -87,12 +88,14 @@
         Status: this.Status(),
         Details: this.Details()
       });
+      taskViewModel.ClearTask();
     },
     DeleteTask: function () {
       tasks.deleteTask({
         TaskID: this.TaskID()
       });
       $('#editTaskModal').modal('hide');
+      taskViewModel.ClearTask();
     },
     ClearTask: function () {
       this.TaskID(undefined);
@@ -164,7 +167,6 @@
       tasks.deletedTask(updatedTask);
       tasksViewModel.tasks.push(updatedTask);
       tasks.sortTasks();
-      taskViewModel.ClearTask();
     },
     deleteTask: function (taskToDelete) {
       $.ajax({
@@ -184,7 +186,6 @@
       tasksViewModel.tasks.remove(function (taskToRemove) {
         return taskToRemove.TaskID === deletedTask.TaskID;
       });
-      taskViewModel.ClearTask();
     },
     sortTasks: function () {
       tasksViewModel.tasks.sort(function (left, right) {
