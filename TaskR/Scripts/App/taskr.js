@@ -42,6 +42,8 @@
       $.getJSON("api/tasks?$filter=AssignedTo eq '" + this.username() + "'", function (results) {
         $.each(results, function () {
           var task = this;
+          var dateCreated = task.DateCreated.fromJsonDate();
+          task.DateCreated = dateCreated.formatDate() + " " + dateCreated.formatTime(true);
           tasks.addedTask(task);
         });
       });
@@ -116,14 +118,20 @@
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(newTask),
         success: function (data, textStatus, jqXHR) {
+          var dateCreated = data.DateCreated.fromJsonDate();
+          data.DateCreated = dateCreated.formatDate() + " " + dateCreated.formatTime(true);
           tasks.addedTask(data);
         }
       });
     },
     addedTask: function (addedTask) {
-      var dateCreated = addedTask.DateCreated.fromJsonDate();
-      addedTask.DateCreated = dateCreated.formatDate() + " " + dateCreated.formatTime(true);
       if (addedTask.AssignedTo.toLowerCase() === viewModel.username().toLowerCase()) {
+        for (var i = 0; i < tasksViewModel.tasks().length; i++) {
+          if (tasksViewModel.tasks()[i].TaskID == addedTask.TaskID) {
+            // This task already exists
+            return;
+          }
+        }
         tasksViewModel.tasks.push(addedTask);
         tasks.sortTasks();
       }
